@@ -1,12 +1,10 @@
-import { Session } from "session";
-
 var scene, camera, renderer, mesh;
 var meshFloor, ambientLight, light;
 
 var crate, crateTexture, crateNormalMap, crateBumpMap;
 
 var keyboard = {};
-var player = { height: 1.8, speed: 0.1, turnSpeed: Math.PI * 0.02 };
+var player = { height: 1.8, speed: 2, turnSpeed: Math.PI * 0.02 };
 var USE_WIREFRAME = false;
 
 
@@ -14,71 +12,22 @@ function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(90, 1280 / 720, 0.1, 1000);
 
-
-    ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-
-    light = new THREE.PointLight(0xffffff, 0.8, 0.11);
-    light.position.set(-3, 6, -3);
-    light.castShadow = true;f
-    light.shadow.camera.near = 0.1;
-    light.shadow.camera.far = 25;
-    scene.add(light);
-
-
-
-    // var manager = new THREE.LoadingManager();
-    // manager.onProgress = function (item, loaded, total) {
-
-    // 	console.log(item, loaded, total);
-
-    // };
-
-    // var texture = new THREE.Texture();
-
-    // var onProgress = function (xhr) {
-    // 	if (xhr.lengthComputable) {
-    // 		var percentComplete = xhr.loaded / xhr.total * 100;
-    // 		console.log(Math.round(percentComplete, 2) + '% downloaded');
-    // 	}
-    // };
-
-    // var onError = function (xhr) { };
-
-    // var loader = new THREE.ImageLoader(manager);
-    // loader.load('models/ayc_model.http', function (image) {
-
-    // 	console.log('done');
-    // 	texture.image = image;
-    // 	texture.needsUpdate = true;
-
-    // });
-
-    // // model
-    // var loader = new THREE.OBJLoader(manager);
-    // loader.load('models/Mars 2K.obj', function (object) {
-
-    // 	object.traverse(function (child) {
-
-    // 		if (child instanceof THREE.Mesh) {
-
-    // 			child.material.map = texture;
-
-    // 		}
-
-    // 	});
-
-    // 	let size = 2;
-    // 	object.scale.x = size;
-    // 	object.scale.y = size;
-    // 	object.scale.z = size;
-    // 	object.rotation.y = 3;
-    // 	object.position.y = -10.5;
-    // 	scene.add(object);
-
-    // }, onProgress, onError);
-
-
+    {
+        const color = 0xFFFFFF;
+        const intensity = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(0, 10, 0);
+        light.target.position.set(-5, 0, 0);
+        scene.add(light);
+        scene.add(light.target);
+    
+        const gui = new dat.GUI();
+        
+        gui.add(light, 'intensity', 0, 2, 0.01);
+        gui.add(light.target.position, 'x', -100, 100);
+        gui.add(light.target.position, 'z', -100, 100);
+        gui.add(light.target.position, 'y', 0, 100);
+      }
 
     var mtlLoader = new THREE.MTLLoader();
     mtlLoader.crossOrigin = 'anonymous';
@@ -96,7 +45,7 @@ function init() {
                     node.receiveShadow = true;
                 }
             });
-            mesh.scale.set(0.03, 0.03, 0.03);
+            mesh.scale.set(1, 1, 1);
             scene.add(mesh);
 
             mesh.position.set(0, 0, 0);
@@ -165,23 +114,3 @@ window.addEventListener('keydown', keyDown);
 window.addEventListener('keyup', keyUp);
 
 window.onload = init;
-
-/*deneme
-var brightness = document.getElementById('brightness');
-var controls = document.getElementById('controls');
-
-controls.onkeyup = controls.onchange = function()
-{
-    var brightness = document.getElementById('brightness'),
-        val        = parseInt(this.value) - 50;
-    
-    if (val > 50 || val < -50)
-    return val;
-    
-    brightness.style.backgroundColor = val > 0 ? 'white' : 'black';
-    brightness.style.opacity = Math.abs(val/100) * 2;
-}*/
-
-function updateTextInput(val) {
-          document.getElementById('textInput').value=val;
-        }

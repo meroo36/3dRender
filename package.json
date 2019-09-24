@@ -9,6 +9,7 @@
   "author": "Daniel Shiffman",
   "license": "ISC",
   "dependencies": {
+    "dat.gui": "^0.7.6",
     "express": "^4.13.4",
     "session": "^0.1.0",
     "smooth-scrollbar": "^8.4.1",
