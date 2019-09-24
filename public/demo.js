@@ -10,8 +10,8 @@ var USE_WIREFRAME = false;
 
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(90, 1280 / 720, 0.1, 1000);
-    camera.position.set( 400, 400, 0 );
+    camera = new THREE.PerspectiveCamera(60, 1280 / 720, 1, 1000);
+    camera.position.set( 400, 500, 0 );
     ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
     {
@@ -29,6 +29,7 @@ function init() {
         gui.add(light.target.position, 'x', -100, 100);
         gui.add(light.target.position, 'z', -100, 100);
         gui.add(light.target.position, 'y', 0, 100);
+        
     }
 
     var mtlLoader = new THREE.MTLLoader();
@@ -50,13 +51,13 @@ function init() {
             mesh.scale.set(1, 1, 1);
             scene.add(mesh);
 
-            mesh.position.set(0, 0, 0);
-
+            mesh.position.set(100,-1, -500);
+            camera.lookAt(mesh.position);
         });
 
     });
 
-
+    
     
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -72,8 +73,8 @@ function init() {
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
-    controls.minDistance = 100;
-    controls.maxDistance = 500;
+    //controls.minDistance = 100;
+    //controls.maxDistance = 500;
     controls.maxPolarAngle = Math.PI / 2;
 
     animate();
